@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getProducts, deleteProduct } from '../../services/products';
-import { getOfertaPrecioUnidad } from '../../utils/pricing';
+import { getOfertaDescuento, getOfertaPrecioUnidad } from '../../utils/pricing';
 
 const CATEGORY_OPTIONS = [
   { value: 'todos', label: 'Todas las categorias' },
@@ -97,7 +97,7 @@ const ProductList = () => {
               <th className="p-3 text-left">Categoria</th>
               <th className="p-3 text-left">Unidad</th>
               <th className="p-3 text-left">Mayor</th>
-              <th className="p-3 text-left">Oferta</th>
+              <th className="p-3 text-left">Oferta temporada</th>
               <th className="p-3 text-left">Stock</th>
               <th className="p-3 text-left">Estado</th>
               <th className="p-3 text-left">Acciones</th>
@@ -116,9 +116,12 @@ const ProductList = () => {
                 </td>
                 <td className="p-3">
                   {product.ofertaDestacada ? (
-                    <span className="text-fuchsia-700 font-semibold">
-                      S/ {getOfertaPrecioUnidad(product)?.toFixed(2)}
-                    </span>
+                    <div className="text-fuchsia-700 font-semibold">
+                      <p>S/ {getOfertaPrecioUnidad(product)?.toFixed(2)}</p>
+                      <p className="text-xs text-fuchsia-600">
+                        Desc. S/ {getOfertaDescuento(product).toFixed(2)}
+                      </p>
+                    </div>
                   ) : (
                     <span className="text-gray-500">No</span>
                   )}

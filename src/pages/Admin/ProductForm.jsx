@@ -27,6 +27,7 @@ const ProductForm = () => {
     stock: '',
     categoria: 'otros',
     ofertaDestacada: false,
+    descuentoOferta: '',
     variantes: {
       colores: '',
       tamanos: '',
@@ -53,6 +54,7 @@ const ProductForm = () => {
             stock: prod.stock,
             categoria: prod.categoria,
             ofertaDestacada: Boolean(prod.ofertaDestacada),
+            descuentoOferta: Number(prod.descuentoOferta || 0),
             variantes: {
               colores: prod.variantes?.colores?.join(', ') || '',
               tamanos: prod.variantes?.tamanos?.join(', ') || '',
@@ -94,6 +96,13 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (formData.ofertaDestacada && Number(formData.descuentoOferta) <= 0) {
+      alert('Si activas la oferta por temporada, debes indicar un descuento mayor a 0.');
+      setLoading(false);
+      return;
+    }
+
     const form = new FormData();
 
     Object.keys(formData).forEach((key) => {
@@ -165,11 +174,28 @@ const ProductForm = () => {
               onChange={handleChange}
               className="h-4 w-4"
             />
-            Activar oferta destacada
+            Activar oferta por temporada
           </label>
-          <p className="text-xs text-pink-700 mt-1">
-            Al activar oferta, el precio por unidad publicado se descuenta automaticamente en S/ 4.00.
-          </p>
+
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
+            <div>
+              <label className="block text-sm text-pink-900 mb-1">Descuento por unidad (S/)</label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="descuentoOferta"
+                value={formData.descuentoOferta}
+                onChange={handleChange}
+                disabled={!formData.ofertaDestacada}
+                className="w-full border rounded p-2 disabled:bg-gray-100 disabled:text-gray-500"
+                placeholder="Ejemplo: 2.50"
+              />
+            </div>
+            <p className="text-xs text-pink-700">
+              El administrador define cuanto descontar. Si desactivas la oferta, el descuento se ignora.
+            </p>
+          </div>
         </div>
 
         <div className="mb-4">
@@ -242,7 +268,11 @@ const ProductForm = () => {
             <p className="font-semibold text-gray-700 mb-1">Vista previa de precios</p>
             <p className="text-gray-700">Original: S/ {Number(formData.precioMenor || 0).toFixed(2)}</p>
             {precioOfertaPreview !== null && (
-              <p className="text-fuchsia-700 font-semibold">Oferta unidad: S/ {precioOfertaPreview.toFixed(2)}</p>
+              <p className="text-fuchsia-700 font-semibold">
+                Oferta por temporada: S/ {precioOfertaPreview.toFixed(2)}
+                {' '}
+                (descuento S/ {Number(formData.descuentoOferta || 0).toFixed(2)})
+              </p>
             )}
             <p className="text-gray-700">
               Mayor (desde {formData.cantidadMayorMinima || 1} und): S/ {Number(formData.precioMayor || 0).toFixed(2)}

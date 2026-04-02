@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getProducts } from '../services/products';
 import ProductCard from '../components/ProductCard';
 import { resolveMediaUrl } from '../utils/media';
-import { getOfertaPrecioUnidad } from '../utils/pricing';
+import { getOfertaDescuento, getOfertaPrecioUnidad } from '../utils/pricing';
 
 const CATEGORY_OPTIONS = [
   { value: 'todos', label: 'Todos' },
@@ -87,8 +87,8 @@ const Home = () => {
       if (sortBy === 'precio_asc') return Number(a.precioMenor) - Number(b.precioMenor);
       if (sortBy === 'precio_desc') return Number(b.precioMenor) - Number(a.precioMenor);
       if (sortBy === 'descuento') {
-        const discountA = a.ofertaDestacada ? 4 : 0;
-        const discountB = b.ofertaDestacada ? 4 : 0;
+        const discountA = getOfertaDescuento(a);
+        const discountB = getOfertaDescuento(b);
         return discountB - discountA;
       }
       if (sortBy === 'nombre') return a.nombre.localeCompare(b.nombre);
@@ -102,6 +102,7 @@ const Home = () => {
 
   const activeOffer = offers[offerIndex];
   const activeOfferPrice = activeOffer ? getOfertaPrecioUnidad(activeOffer) : null;
+  const activeOfferDiscount = activeOffer ? getOfertaDescuento(activeOffer) : 0;
   const heroVisual = activeOffer || products[0];
 
   return (
@@ -224,7 +225,7 @@ const Home = () => {
 
             <div className="lg:col-span-2">
               <p className="inline-flex rounded-full bg-fuchsia-100 text-fuchsia-700 text-xs font-semibold px-3 py-1 mb-3">
-                Oferta destacada
+                Oferta por temporada
               </p>
               <h3 className="text-2xl font-bold text-slate-900">{activeOffer.nombre}</h3>
               <p className="text-sm text-slate-700 mt-1 font-medium">Codigo: {activeOffer.codigo}</p>
@@ -245,7 +246,7 @@ const Home = () => {
               </div>
 
               <p className="mt-3 inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
-                Ahorra S/ 4.00
+                Ahorra S/ {Number(activeOfferDiscount || 0).toFixed(2)}
               </p>
 
               <div className="mt-6">

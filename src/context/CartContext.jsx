@@ -35,7 +35,8 @@ export const CartProvider = ({ children }) => {
                 precioMenor: Number(product.precioMenor),
                 precioMayor: Number(product.precioMayor),
                 cantidadMayorMinima: Number(product.cantidadMayorMinima || 6),
-                ofertaDestacada: Boolean(product.ofertaDestacada)
+                ofertaDestacada: Boolean(product.ofertaDestacada),
+                descuentoOferta: Number(product.descuentoOferta || 0)
               }
             : item
         );
@@ -50,6 +51,7 @@ export const CartProvider = ({ children }) => {
           precioMayor: Number(product.precioMayor),
           cantidadMayorMinima: Number(product.cantidadMayorMinima || 6),
           ofertaDestacada: Boolean(product.ofertaDestacada),
+          descuentoOferta: Number(product.descuentoOferta || 0),
           precio: Number(product.precioMenor),
           imagen: resolveMediaUrl(product.imagenes?.[0]),
           cantidad
