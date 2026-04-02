@@ -7,6 +7,8 @@ const Header = () => {
   const { totalItems } = useCart();
   const { user, isAdmin, logout } = useAuth();
   const [mobileMenu, setMobileMenu] = useState(false);
+  const toggleMobileMenu = () => setMobileMenu((prev) => !prev);
+  const closeMobileMenu = () => setMobileMenu(false);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -66,8 +68,15 @@ const Header = () => {
           )}
         </nav>
 
-        <button className="md:hidden text-gray-700" onClick={() => setMobileMenu(!mobileMenu)}>
-          <i className="fas fa-bars text-xl"></i>
+        <button
+          type="button"
+          className="md:hidden inline-flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
+          onClick={toggleMobileMenu}
+          aria-label="Abrir menu"
+          aria-expanded={mobileMenu}
+        >
+          <span className="text-sm font-semibold">{mobileMenu ? 'Cerrar' : 'Menu'}</span>
+          <span className="text-base leading-none">{mobileMenu ? 'X' : '☰'}</span>
         </button>
       </div>
 
@@ -75,33 +84,59 @@ const Header = () => {
         <div className="md:hidden bg-white border-t">
           {isAdmin ? (
             <>
-              <Link to="/admin/dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              <Link
+                to="/admin/dashboard"
+                onClick={closeMobileMenu}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
                 Dashboard
               </Link>
-              <Link to="/admin/productos" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              <Link
+                to="/admin/productos"
+                onClick={closeMobileMenu}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
                 Productos
               </Link>
-              <Link to="/admin/pedidos" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              <Link
+                to="/admin/pedidos"
+                onClick={closeMobileMenu}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
                 Pedidos
               </Link>
-              <button onClick={logout} className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
+              <button
+                type="button"
+                onClick={() => {
+                  closeMobileMenu();
+                  logout();
+                }}
+                className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+              >
                 Cerrar sesion
               </button>
             </>
           ) : (
             <>
-              <Link to="/products" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              <Link to="/products" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                 Productos
               </Link>
-              <Link to="/cart" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              <Link to="/cart" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                 Carrito
               </Link>
               {user ? (
-                <button onClick={logout} className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeMobileMenu();
+                    logout();
+                  }}
+                  className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                >
                   Cerrar sesion
                 </button>
               ) : (
-                <Link to="/login" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <Link to="/login" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                   Inicio de sesion
                 </Link>
               )}
