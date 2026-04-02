@@ -21,6 +21,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const handleUnauthorized = () => setUser(null);
+
     const checkAuth = async () => {
       try {
         const res = await verifyToken();
@@ -32,7 +34,12 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
+    window.addEventListener('auth:unauthorized', handleUnauthorized);
     checkAuth();
+
+    return () => {
+      window.removeEventListener('auth:unauthorized', handleUnauthorized);
+    };
   }, []);
 
   const login = async (email, password) => {
