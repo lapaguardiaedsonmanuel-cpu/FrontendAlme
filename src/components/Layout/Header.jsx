@@ -73,13 +73,18 @@ const Header = () => {
 
         <button
           type="button"
-          className="md:hidden inline-flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 text-gray-700"
+          className="md:hidden inline-flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 text-gray-700 relative"
           onClick={toggleMobileMenu}
           aria-label="Abrir menu"
           aria-expanded={mobileMenu}
         >
           <span className="text-sm font-semibold">{mobileMenu ? 'Cerrar' : 'Menu'}</span>
           <span className="text-base leading-none">{mobileMenu ? 'X' : '☰'}</span>
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 bg-pink-600 text-white text-[10px] leading-[18px] text-center rounded-full">
+              {totalItems}
+            </span>
+          )}
         </button>
       </div>
 
@@ -125,7 +130,7 @@ const Header = () => {
                 Productos
               </Link>
               <Link to="/cart" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                Carrito
+                Carrito {totalItems > 0 ? `(${totalItems})` : ''}
               </Link>
               {user ? (
                 <>
