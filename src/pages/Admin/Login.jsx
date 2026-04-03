@@ -102,7 +102,7 @@ const Login = () => {
         {error && <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          {(mode === 'register' || mode === 'login') && (
+          {mode === 'register' && (
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">Nombre</label>
               <input
@@ -112,7 +112,7 @@ const Login = () => {
                 onChange={handleChange}
                 className="w-full border rounded p-2"
                 placeholder="Tu nombre"
-                required={mode === 'register'}
+                required
               />
             </div>
           )}

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { resolveMediaUrl } from '../utils/media';
 
 const Cart = () => {
   const { cart, updateQuantity, removeFromCart, totalPrice, resolveItemUnitPrice } = useCart();
+  const { user } = useAuth();
 
   if (cart.length === 0) {
     return (
@@ -68,12 +70,21 @@ const Cart = () => {
         </table>
         <div className="p-4 bg-gray-50 text-right">
           <p className="text-xl font-bold">Total: S/ {totalPrice.toFixed(2)}</p>
-          <Link
-            to="/checkout"
-            className="inline-block mt-4 bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700"
-          >
-            Proceder al pago
-          </Link>
+          {user ? (
+            <Link
+              to="/checkout"
+              className="inline-block mt-4 bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700"
+            >
+              Proceder al pago
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="inline-block mt-4 bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700"
+            >
+              Inicia sesion para comprar
+            </Link>
+          )}
         </div>
       </div>
     </div>

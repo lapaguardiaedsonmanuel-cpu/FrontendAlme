@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { createOrder } from '../services/orders';
 
 const Checkout = () => {
   const { cart, totalPrice, clearCart, resolveItemUnitPrice } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [tipoEnvio, setTipoEnvio] = useState('domicilio');
   const [loading, setLoading] = useState(false);
@@ -23,6 +25,11 @@ const Checkout = () => {
 
   if (cart.length === 0) {
     navigate('/cart');
+    return null;
+  }
+
+  if (!user) {
+    navigate('/login');
     return null;
   }
 
