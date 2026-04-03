@@ -47,12 +47,14 @@ const Checkout = () => {
       if (tipoEnvio === 'domicilio') {
         cliente.nombre = formData.nombre;
         cliente.celular = formData.celular;
+        cliente.email = user?.email || '';
         envio.direccion = formData.direccion;
         envio.distrito = formData.distrito;
       } else if (tipoEnvio === 'agencia') {
         cliente.nombre = formData.nombre;
         cliente.celular = formData.celular;
         cliente.dni = formData.dni;
+        cliente.email = user?.email || '';
         envio.destino = {
           departamento: formData.departamento,
           provincia: formData.provincia,
@@ -61,6 +63,7 @@ const Checkout = () => {
       } else {
         cliente.nombre = formData.nombre;
         cliente.celular = formData.celular;
+        cliente.email = user?.email || '';
         envio.puntoRecojo = { lugar: formData.punto };
       }
 

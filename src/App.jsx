@@ -11,6 +11,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Thanks from './pages/Thanks';
+import MyOrders from './pages/MyOrders';
 
 import AdminLogin from './pages/Admin/Login';
 import AdminDashboard from './pages/Admin/Dashboard';
@@ -30,6 +31,7 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/mis-pedidos" element={<MyOrders />} />
               <Route path="/thanks/:id" element={<Thanks />} />
 
               <Route path="/login" element={<AdminLogin />} />

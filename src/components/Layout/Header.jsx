@@ -54,6 +54,9 @@ const Header = () => {
               </Link>
               {user ? (
                 <>
+                  <Link to="/mis-pedidos" className="text-gray-700 hover:text-pink-600">
+                    Mis pedidos
+                  </Link>
                   <span className="text-sm text-slate-600">Hola, {user.nombre || user.email}</span>
                   <button onClick={logout} className="text-red-500 hover:text-red-700">
                     Cerrar sesion
@@ -125,16 +128,21 @@ const Header = () => {
                 Carrito
               </Link>
               {user ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMobileMenu();
-                    logout();
-                  }}
-                  className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
-                >
-                  Cerrar sesion
-                </button>
+                <>
+                  <Link to="/mis-pedidos" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Mis pedidos
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeMobileMenu();
+                      logout();
+                    }}
+                    className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                  >
+                    Cerrar sesion
+                  </button>
+                </>
               ) : (
                 <Link to="/login" onClick={closeMobileMenu} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                   Inicio de sesion
